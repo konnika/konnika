@@ -1,0 +1,502 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>DDD / hexagonale Architektur</title>
+
+    <meta name="author" content="Andreas Konrad" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/msg_for_banking_icon.png">
+
+    <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="impress" data-transition-duration="600">
+        <div id="one" class="step slide" data-x="0" data-y="0" data-z="0" data-scale="1">
+            <p class="title">DDD und hexagonale Architektur in der Bank</p>
+            <div class="content">
+                <p>JUGF - 25.05.2022</p>
+                <!-- <p>https://jugf.github.io/posts/ddd-und-hexagonale-architektur-in-der-bank-25-05-2022/</p> -->
+            </div>
+            <div>
+                <div class="footer-right">
+                    <div style="margin-right: 16px;">Andreas.Konrad@</div>
+                    <img src="img/logo_msg.svg" width="133" height="50"></img>
+                    <div style="margin-left: 16px;">.group</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- intro -->
+        <div id="intro_1" class="step slide" data-x="0" data-y="1200" data-z="0" data-scale="1" onclick="switch_img('intro_1_img',me_imgs)">
+            <p class="title">Wer bin ich?</p>
+            <div class="content" style="display: flex">
+                <div style="flex: 0 1 60%;">
+                    <p>Andreas Konrad, Informatiker</p>
+                    <p>Architekt, Softwareentwickler</p>
+                    <p>15 Jahre Erfahrung (Java)</p>
+                </div>
+                <img id="intro_1_img" src="img/AndreasKonrad.jpg" width="640" height="480" />
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="intro_2" class="step slide" data-x="2400" data-y="1200" data-z="0" data-scale="1">
+            <p class="title">Wer ist die msg 4 banking?<p>
+            <div class="content" style="display: flex;">
+                <div style="flex: 0 1 70%;">
+                    <p>Firmengruppe msg, 9000 MA</p>
+                    <p>msg 4 banking, 100 Jahre, 600 MA</p>
+                    <p>München + Karlsruhe + Passau + weitere Standorte</p>
+                    <p><img src="img/MarzipanLogoMitBaum.svg"/> für 400 Filialen</p>
+                </div>
+                <img src="img/msg_for_banking.png" width="400" height="150" style="flex: 0 1 30%;"/>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="intro_3" class="step slide" data-x="4800" data-y="1200" data-z="0" data-scale="1" onclick="show('intro_3_pt')">
+            <p class="title">Wofür ist die Anwendung?</p>
+            <div class="content" style="display: flex;">
+                <div style="flex: 0 1 50%; margin-top: 30px;">Annuitätendarlehen<ul>
+                    <li>Nominalbetrag</li>
+                    <li>Auszahlungsdatum</li>
+                    <li>Laufzeit</li>
+                    <li>Tilgungsratenrhythmus</li>
+                    <li>p.a. Zins</li></ul>
+                </div>
+                <div id="intro_3_pt" class="font-green invisible" style="flex: 0 1 50%; margin-top: 30px;">Easy Credit 1-2-3<ul>
+                    <li>Nominalbetrag: 10.000 €</li>
+                    <li>Auszahlungsdatum</li>
+                    <li>Laufzeit: 4 Jahre</li>
+                    <li>Tilgungsratenrhythmus: Monatlich</li>
+                    <li style="text-decoration: line-through">p.a. Zins</li></ul>
+                </div>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="intro_4" class="step slide fullscreen" data-x="4800" data-y="1200" data-z="-1000" data-scale="0.1">
+            <img src="img/pt_screenshot.png" />
+        </div>
+        
+        <!-- DDD -->
+        <div id="ddd_1" class="step slide" data-x="0" data-y="2400" data-z="0" data-scale="1">
+            <p class="title">Domain Driven Design</p>
+            <div class="content">
+                <ul class="cloud">
+                    <li><div data-weight="9">Ubiquitous language</div></li>
+                    <li><div data-weight="5">Aggregates</div></li>
+                    <li><div data-weight="7">Bounded context</div></li>
+                    <li><div data-weight="3">Entities</div></li>
+                    <li><div data-weight="2">Value Objects</div></li>
+                    <li><div data-weight="4">Repositories</div></li>
+                    <li><div data-weight="2">Services</div></li>
+                    <li><div data-weight="6">Strategic design</div></li>
+                    <li><div data-weight="4">Tactical design</div></li>
+                    <li><div data-weight="3">Events</div></li>
+                </ul>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <!-- 10 min -->
+
+        <div id="ddd_2_1" class="step slide" data-x="2400" data-y="2400" data-z="0" data-scale="1" onclick="switch_img('ddd_2_1_img',context_map_imgs)">
+            <p class="title">Context map</p>
+            <div class="content">
+                <img id="ddd_2_1_img" src="img/context_map_undefined.svg" width="1200" height="700" />
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_2_2" class="step slide" data-x="4800" data-y="2400" data-z="0" data-scale="1" onclick="show('ddd_2_2_answers')">
+            <p class="title">Strategic design 1</p>
+            <div class="content" style="display: flex;">
+                <div style="flex: 0 1 50%;">
+                    <p>Use Cases?</p>
+                    <p>Datenmengen?</p>
+                    <p>Anpassungsmöglichkeiten?</p>
+                    <p>Fehlerbehandlung?</p>
+                </div>
+                <div id="ddd_2_2_answers" class="font-green invisible" style="flex: 0 1 50%;">
+                    <p>Anzeige aktueller Marktdaten für den User</p>
+                    <p>Daten pro Mandant &lt; 10 KB</p>
+                    <p>Marktdaten App kann angepasst werden</p>
+                    <p>User soll keine Fehler sehen</p>
+                </div>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_2_3" class="step slide" data-x="7200" data-y="2400" data-z="0" data-scale="1" onclick="switch_img('ddd_2_3_img',market_data_imgs)">
+            <p class="title">Strategic design 2</p>
+            <div class="content">
+                <img id="ddd_2_3_img" src="img/market_data_0.svg" width="1200" height="300" />
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_2_4" class="step slide" data-x="7200" data-y="2400" data-z="-1000" data-scale="0.1" onclick="show('ddd_2_4_answer')">
+            <p class="title">Quiz</p>
+            <div class="content">
+                <p>Was ist ein Nachteil der Lösung?</p>
+                <p id="ddd_2_4_answer" class="font-red invisible">Eine initiale Datenbefüllung ist notwendig</p>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="ddd_3_1" class="step slide" data-x="9600" data-y="2400" data-z="0" data-scale="1" onclick="show('ddd_3_1_excluded')">
+            <p class="title">Bounded context</p>
+            <div class="content flex">
+                <div style="flex: 0 1 50%;">
+                    <p>Produkte, Produktvorlagen</p>
+                    <p>Variablen und -typen</p>
+                    <p>Konfigurationsmöglichkeiten und Konzepte</p>
+                    <p>Werte, Einheiten</p>
+                </div>
+                <div id="ddd_3_1_excluded" class="invisible font-red" style="flex: 0 1 50%; text-decoration: line-through;">
+                    <p>Kreditgeschäfte</p>
+                    <p>Nominalbetrag, Laufzeit</p>
+                    <p>Fachliche Beziehungen zwischen Variablen</p>
+                    <p>Bedeutung der Konfiguration</p>
+                </div>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_3_2" class="step slide" data-x="12000" data-y="2400" data-z="0" data-scale="1" onclick="show('ddd_3_2_solution')">
+            <p class="title">Beispiel bounded context</p>
+            <div class="content">
+                <img src="img/pt_example_zinsstruktur.png" width="1700" height="80" />
+                <p>Neues Konzept: Variablentyp abhängig von aktueller Konfiguration</p>
+                <p>Zusätzliche Abhängigkeit zu Marktdaten</p>
+                <div id="ddd_3_2_solution" class="flex font-green" style="display: none;">
+                    <p>Viel besser:</p>
+                    <img style="margin-left: 40px;" src="img/pt_example_zinsstruktur_tooltip.png" width="751" height="191" />
+                </div>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <!-- 26 min-->
+
+        <div id="ddd_4_1" class="step slide" data-x="14400" data-y="2400" data-z="0" data-scale="1">
+            <p class="title">Ubiquitous language <a href="https://dict.leo.org/german-english/ubiquitous" target="_blank">&#9199;</a></p>
+            <div class="content" style="display: flex" onclick="show('ddd_4_1_hint_1'); show('ddd_4_1_hint_2')">
+                <div style="flex: 0 1 40%;">
+                    <p>Die Domäne bestimmt die Begriffe</p>
+                    <p>Dev gibt Feedback</p>
+                    <p>Klärt alle Begriffe mit BA</p>
+                    <p id="ddd_4_1_hint_1" class="font-green invisible">Dokumentieren</p>
+                </div>
+                <embed id="ddd_4_1_hint_2" class="invisible" type="text/html" src="html/glossar.html" width="1000" height="600" style="flex: 0 1 70%;"/>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_4_2" class="step slide" data-x="16800" data-y="2400" data-z="0" data-scale="1" onclick="show('ddd_4_2_img'); show('ddd_4_2_txt')">
+            <p class="title">Domain story telling</p>
+            <div class="content flex">
+                <div style="flex: 0 1 30%">
+                    <p>Passt das Thema? </p>
+                    <p>Lass den BA erzählen</p>
+                    <p id="ddd_4_2_txt" class="invisible font-green"><a href="https://www.wps.de/modeler/" target="_blank">wps.de/modeler</a></p>
+                </div>
+                <div id="ddd_4_2_img" class="invisible" style="flex: 0 1 70%">
+                    <img src="img/domain-story-model.png" width="1216" height="708" />
+                </div>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <!-- 34 min -->
+        
+        <div id="ddd_5_1" class="step slide" data-x="00" data-y="3600" data-z="0" data-scale="1">
+            <p class="title">Tactical design</p>
+            <div class="content flex" style="justify-content: center;">
+                <ul class="cloud" style="flex: 0 1 50%">
+                    <li><div data-weight="7">Aggregate</div></li>
+                    <li><div data-weight="5">Entity</div></li>
+                    <li><div data-weight="5">Value Object</div></li>
+                    <li><div data-weight="4">Repository</div></li>
+                    <li><div data-weight="3">Service</div></li>
+                    <li><div data-weight="5">Event</div></li>
+                </ul>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="ddd_5_2" class="step slide" data-x="2400" data-y="3600" data-z="0" data-scale="1">
+            <p class="title">Aggregate</p>
+            <div class="content">
+                <embed type="text/html" src="html/code Aggregate.htm" width="1700" height="720"/>
+                <!-- talking points: id, invariants, id object, persistence info, other aggregate id only -->
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_5_4" class="step slide" data-x="4800" data-y="3600" data-z="0" data-scale="1" onclick="show('ddd_5_4_answer')">
+            <p class="title">Aggregate: Kommunikation 1</p>
+            <div class="content">
+                <div class="flex">
+                    <div style="flex: 0 1 40%">
+                        <p>ProductTemplate</p>
+                        <p class="indented-line">TemplateGroup</p>
+                        <p class="indented-line">VariableDefinition</p>
+                    </div>
+                    <p style="flex: 0 1 10%; font-size: 96px;">&#10145;</p>
+                    <div style="flex: 0 1 50%;">
+                        <p>Product</p>
+                        <p class="indented-line">ProductGroup</p>
+                        <p class="indented-line">VariableConfiguration</p>
+                    </div>
+                </div>
+                <p id="ddd_5_4_answer" class="invisible font-green indented-line" style="margin-top: 150px; margin-left: 35%;">Domain Service</p>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_5_5" class="step slide" data-x="7200" data-y="3600" data-z="0" data-scale="1" onclick="show('ddd_5_5_answer')">
+            <p class="title">Aggregate: Kommunikation 2</p>
+            <div class="content">
+                <div class="flex">
+                    <div style="flex: 0 1 50%">
+                        <p>Set&lt;ListOfCompetenceOfTerms></p>
+                        <p class="indented-line">String name</p>
+                    </div>
+                    <p style="flex: 0 1 10%; font-size: 96px;">&#10145;</p>
+                    <div style="flex: 0 1 40%;">
+                        <p>ListOfPredefinedValues</p>
+                        <p class="indented-line">List&lt;String> values</p>
+                    </div>
+                </div>
+                <p id="ddd_5_5_answer" class="invisible font-green indented-line" style="margin-top: 150px; margin-left: 40%;">Event</p>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <!-- 44 min -->
+
+        <div id="ddd_5_6" class="step slide" data-x="9600" data-y="3600" data-z="0" data-scale="1">
+            <p class="title">Entity</p>
+            <div class="content">
+                <embed type="text/html" src="html/code Entity.htm" width="1700" height="700"/>
+                <!-- talking points: update method -->
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="ddd_5_7" class="step slide" data-x="12000" data-y="3600" data-z="0" data-scale="1">
+            <p class="title">Value Object</p>
+            <div class="content">
+                <embed type="text/html" src="html/code Value Object.htm" width="1700" height="700"/>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="ddd_5_8" class="step slide" data-x="14400" data-y="3600" data-z="0" data-scale="1">
+            <p class="title">Repository</p>
+            <div class="content">
+                <embed type="text/html" src="html/code ProductTemplateRepository.htm" width="1700" height="700"/>
+                <!-- talking points: necessary methods only, domain objects -->
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="ddd_5_9" class="step slide" data-x="16800" data-y="3600" data-z="0" data-scale="1" onclick="show('ddd_5_8_arrow'); show('ddd_5_8_query')">
+            <p class="title">Command query separation</p>
+            <div class="content">
+                <embed type="text/html" src="html/code CQS-Product.htm" width="1700" height="300"/>
+                <p id="ddd_5_8_arrow" class="invisible" style="margin-top: 0px; margin-left: 50%;">&#11015;</p>
+                <embed id="ddd_5_8_query" class="invisible" type="text/html" src="html/code CQS-Query.htm" width="1700" height="400"/>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <!-- 50 min -->
+
+        <!-- architecture -->
+        
+        <div id="arch_1" class="step slide" data-x="00" data-y="4800" data-z="0" data-scale="1">
+            <p class="title">Hexagonale Architektur</p>
+            <div class="content flex" style="justify-content: center; margin-top: 100px;">
+                <img src="img/alistair-cockburn-hexagon.gif" width="716" height="478" >
+             </div>
+             <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="arch_2" class="step slide" data-x="2400" data-y="4800" data-z="0" data-scale="1">
+            <p class="title">Motivation</p>
+            <div class="content">
+                <img src="img/pt_context_view_before.svg" width="1400" height="600" >
+             </div>
+             <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="arch_3" class="step slide" data-x="4800" data-y="4800" data-z="0" data-scale="1">
+            <p class="title">Ports and adapters</p>
+            <!-- talking points: better name, in/out, dependency inversion, entity =/= ports -->
+            <div class="content">
+                <img src="img/hexagon-dirty-clean-architecture.jpg" width="1400" height="600" />
+             </div>
+             <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="arch_4" class="step slide" data-x="7200" data-y="4800" data-z="0" data-scale="1">
+            <p class="title" onclick="show('arch_4_right')">Functional view</p>
+            <div class="content flex" style="justify-content: center; margin-top: 50px;">
+                <img id="arch_4_img" style="flex: 0 1 28%;" src="img/architecture-high-level.svg" width="200" height="600" onclick="switch_img('arch_4_img',functional_view_imgs)"/>
+                <div style="flex: 0 1 20%;"></div>
+                <div id="arch_4_right" class="invisible font-red" style="flex: 0 1 40%;">
+                    <p>Spring application module</p>
+                    <p>Cross cutting concerns<ul>
+                        <li>IAM</li>
+                        <li>Tenants</li>
+                        <li>Exceptions</li>
+                    </ul></p>
+                </div>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="arch_5" class="step slide" data-x="9600" data-y="4800" data-z="0" data-scale="1" onclick="show('arch_5_details_1'); show('arch_5_details_2')">
+            <p class="title">Vorteile</p>
+            <!-- talking points: Gedanklich einfach, frei, Testbarkeit, mocking -->
+            <div class="content flex">
+                <div style="flex: 0 1 40%;">
+                    <p>Die Domain ist frei von Technik<ul id="arch_5_details_1" class="invisible">
+                        <li>REST</li>
+                        <li>Spring</li>
+                        <li>JPA</li>
+                    </ul></p>
+                </div>
+                <div style="flex: 0 1 10%"></div>
+                <div style="flex: 0 1 50%;">
+                    <p>Die Domain ist frei von Abhängigkeiten<ul id="arch_5_details_2" class="invisible">
+                        <li>Restliche Anwendung</li>
+                        <li>Repositories</li>
+                        <li>Externe Systeme</li>
+                    </ul></p>
+                </div>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="arch_5_extra" class="step slide" data-x="9600" data-y="4800" data-z="-1000" data-scale="0.1">
+            <p class="title">Domain pom.xml</p>
+            <div class="content">
+                <embed type="text/html" src="html/code pom domain.htm" width="1700" height="700"/>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <div id="arch_6" class="step slide" data-x="12000" data-y="4800" data-z="0" data-scale="1">
+            <p class="title">Auswirkungen</p>
+            <div class="content">
+                <p>Use Cases sind von zentraler Bedeutung<ul>
+                    <li>Querschnittsaspekte</li>
+                    <li>Persistenz Interaktionen</li>
+                    <li>Transformationen</li>
+                </ul></p>
+                <p>Ausnahmen: Logging, Lombok, Exceptions</p>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="arch_7" class="step slide" data-x="14400" data-y="4800" data-z="0" data-scale="1">
+            <p class="title">Beispiel Use Case</p>
+            <div class="content">
+                <embed type="text/html" src="html/code DomainStory.htm" width="1700" height="700"/>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <!-- 64 min -->
+
+        <div id="outro_1" class="step slide" data-x="00" data-y="6000" data-z="0" data-scale="1">
+            <p class="title">Quellen</p>
+            <div class="content" style="display: flex;">
+                <img src="img/eric-evans-ddd.png" width="252" height="333" style="flex: 0 1 10%; margin: 16px;" />
+                <img src="img/vaughn-vernon-ddd.png" width="252" height="333" style="flex: 0 1 10%; margin: 16px;" />
+                <img src="img/vaughn-vernon-henning-schwentner-carola-lilienthal-ddd-kompakt.png" width="230" height="333" style="flex: 0 1 10%; margin: 16px;" />
+                <img src="img/tom-hombergs-clean-architecture.png" width="250" height="309" style="flex: 0 1 10%; margin: 16px;" />
+            </div>
+            <p>https://alistair.cockburn.us/hexagonal-architecture/</p>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+        
+        <div id="outro_2" class="step slide" data-x="2400" data-y="6000" data-z="0" data-scale="1">
+            <p class="title">Zusammenfassung</p>
+            <div class="content">
+                <p>Anwendung zur Konfiguration von Produkten einer Bank</p>
+                <p>Domain Driven Design</p>
+                <p>Ports and adapters Architektur <img style="float: right" src="img/kiss.jpg" width="800" height="400" /></p>
+            </div>
+            <embed class="footer" type="text/html" src="html/footer.html"/>
+        </div>
+
+        <!-- 67 min -->
+        
+        <div id="overview" class="step" data-x="8400" data-y="3600" data-z="0" data-rotate-y="0" data-scale="8"
+            style="pointer-events: none;">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        class Images {
+            constructor(array) {
+                this.i = 0
+                this.array = array
+            }
+            next() {
+                this.i++;
+                if(this.i >= this.array.length) this.i = 0
+                return this.array[this.i]
+            }
+        }
+
+        const me_imgs = new Images([
+            {src:'img/AndreasKonrad.jpg',width:640,height:480},
+            {src:'img/kiss.jpg',width:800,height:400}
+        ]);
+        
+        const context_map_imgs = new Images([
+            {src:'img/context_map_undefined.svg',width:1200,height:700},
+            {src:'img/context_map_partly.svg',width:1200,height:700},
+            {src:'img/context_map.svg',width:1500,height:700}
+        ]);
+
+        const market_data_imgs = new Images([
+            {src:'img/market_data_0.svg',width:1500,height:300},
+            {src:'img/market_data_1.svg',width:1500,height:300},
+            {src:'img/market_data_2.svg',width:1500,height:700},
+            {src:'img/market_data_3.svg',width:1500,height:700}
+        ]);
+
+        const functional_view_imgs = new Images([
+            {src:'img/architecture-high-level.svg',width:200,height:600},
+            {src:'img/architecture-high-level-layers.svg',width:200,height:600},
+        ]);
+
+        /* --------------------------------------------------------------------------------- */
+        function switch_img(id, images) {
+            const img = images.next();
+            const element = document.getElementById(id);
+            element.setAttribute('src', img.src);
+            element.setAttribute('width', img.width);
+            element.setAttribute('height', img.height);
+        }
+
+        function show(id) {
+            const element = document.getElementById(id);
+            element.style.display = element.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+
+    <script src="scripts/impress.js"></script>
+    <script>impress().init();</script>
+</body>
+
+</html>
