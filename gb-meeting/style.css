@@ -80,12 +80,14 @@ body {
     text-align: center;
 }
 
-.content-right {
-    text-align: right;
+.big {
+    font-size: 64px;
+    padding-top: 64px;
+    padding-bottom: 64px;
 }
 
-.content-low {
-    padding-top: 250px;
+.right {
+    text-align: right;
 }
 
 
