@@ -1,17 +1,19 @@
 = Maya's building blocks
 
-.Read a number from the keyboard TODO
+.Read a number from the keyboard
 [source,c++]
 ----
 int number;
-number << std.cin
+number << cin
 ----
 
-.Read a number from a file TODO
+.Read a number from a file
 [source,c++]
 ----
+#include <iostream>
+ifstream myfile("example.txt");
 int number;
-number << iostream.???
+number << myfile
 ----
 
 .Get the last digit of a number
