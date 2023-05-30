@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Is it your birthday?</title>
+
+  <style>
+    body {
+      text-align: center;
+    }
+
+    div {
+      font-size: 36px;
+      font-weight: bold;
+
+      margin-bottom: 16px;
+    }
+
+    input {
+      font-size: 36px;
+
+      margin-top: 16px;
+      margin-left: 8px;
+    }
+
+    #message {
+      font-size: 96px;
+    }
+  </style>
+
+</head>
+
+<body>
+<div>Is it your birthday?</div>
+<div><label for="name">Tell me your first name</label><input id="name" type="text" onkeyup="check()"/></div>
+<div id="message"></div>
+
+<script>
+  const birthdays = {
+    "maya": "2011-05-30",
+    "sara": "2013-04-05",
+    "mariana": "1963-05-15",
+    "bunica": "1963-05-15",
+    "bunicul": "1963-08-01",
+    "andreea": "1985-12-15",
+    "mama": "1985-12-15",
+    "robert": "1982-02-07",
+    "tata": "1982-02-07",
+    "andreas": "1980-07-12",
+    "bb": "1980-07-12",
+    "oana": "1987-08-24",
+  }
+
+  isLaterThisYear = (month, day, month2, day2) => {
+    return month > month2 ? true : month < month2 ? false : day > day2
+  }
+
+  check = (e) => {
+    const name = document.getElementById('name').value.toLowerCase();
+    const message = document.getElementById('message')
+
+    const birthday = Object.keys(birthdays).find(key => key === name)
+
+    if (birthday) {
+      const date = birthdays[birthday].substring(5);
+      const today = new Date().toISOString().substring(5, 10)
+      const laterThisYear = isLaterThisYear(date.substring(0, 2), date.substring(3, 5),
+          new Date().toISOString().substring(5, 7), new Date().toISOString().substring(8, 10))
+      const text = date === today ? "today! Happy Birthday!" : laterThisYear ? "later this year."
+          : "again next year."
+      message.textContent = `Your birthday is ${text}`
+    } else {
+      message.textContent = name.length > 2 ?
+          `I don't know you :(` : ""
+    }
+  }
+</script>
+</body>
+
+</html>
