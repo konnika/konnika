@@ -1,12 +1,12 @@
 = Keep it simple stupid
 
-2024-01-23 Andreas Konrad
+.2024-01-23 by Andreas Konrad
 
 When I introduce myself I say: Hi, my name is Andreas Konrad, but people call me Konni.
 I am the architect for the MARZIPAN product family.
 And the most important architecture principle is: Keep it simple!
 
-People usually smile, some look like the want to laugh, some nod and some don't react at all.
+People usually smile, some look like they want to laugh, some nod and some don't react at all.
 
 It is, however, not simple at all to keep it simple.
 In fact, it is very hard and constantly challenging.
