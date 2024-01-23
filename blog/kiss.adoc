@@ -1,0 +1,32 @@
+= Keep it simple stupid
+
+2024-01-23 Andreas Konrad
+
+When I introduce myself I say: Hi, my name is Andreas Konrad, but people call me Konni.
+I am the architect for the MARZIPAN product family.
+And the most important architecture principle is: Keep it simple!
+
+People usually smile, some look like the want to laugh, some nod and some don't react at all.
+
+It is, however, not simple at all to keep it simple.
+In fact, it is very hard and constantly challenging.
+It is not so much part of the science, engineering or craftsmanship aspects of architecture as it is an art.
+This is why I dedicate this whole article to keeping it simple.
+
+So, what's so hard about keeping it simple?
+
+Well, first off, people have a different understanding of simple.
+What one might call simple - imagine an experienced developer proposing to use a message queue for async communication - another might call very complicated - an inexperienced developer, a non-technical person.
+
+Second, you can aim at simplifying different things.
+A very good example is something that happened to me several times already: When starting to develop a new application, everything is easy.
+You put everything where you want, name it however you like, keep everything close together and don't introduce abstractions.
+It is very simple to do so - and it is sufficient, for the beginning.
+But you know that the application will grow.
+You know there will be more and more features, more and more code.
+And you know you have to start introducing consistent patterns and naming in order to keep the application maintainable.
+So the question is: Is it simpler to _just code_ however you want in the beginning?
+Or is it simpler to develop patterns, be careful when naming things and introduce yet unnecessary abstractions?
+It all depends on if you're aiming for simple now or simple later.
+
+
