@@ -6,7 +6,7 @@ When I introduce myself I say: Hi, my name is Andreas Konrad, but people call me
 I am the architect for the MARZIPAN product family.
 And the most important architecture principle is: Keep it simple!
 
-People usually smile, some look like they want to laugh, some nod and some don't react at all.
+// People usually smile, some look like they want to laugh, some nod and some don't react at all.
 
 It is, however, not simple at all to keep it simple.
 In fact, it is very hard and constantly challenging.
@@ -15,18 +15,20 @@ This is why I dedicate this whole article to keeping it simple.
 
 So, what's so hard about keeping it simple?
 
-Well, first off, people have a different understanding of simple.
-What one might call simple - imagine an experienced developer proposing to use a message queue for async communication - another might call very complicated - an inexperienced developer, a non-technical person.
+.Well, first off, people have a different understanding of simple.
+What one might call simple, another might call complicated or complex.
+This is because you can aim at simplifying different aspects.
 
-Second, you can aim at simplifying different things.
-A very good example is something that happened to me several times already: When starting to develop a new application, everything is easy.
-You put everything where you want, name it however you like, keep everything close together and don't introduce abstractions.
-It is very simple to do so - and it is sufficient, for the beginning.
-But you know that the application will grow.
-You know there will be more and more features, more and more code.
-And you know you have to start introducing consistent patterns and naming in order to keep the application maintainable.
-So the question is: Is it simpler to _just code_ however you want in the beginning?
-Or is it simpler to develop patterns, be careful when naming things and introduce yet unnecessary abstractions?
-It all depends on if you're aiming for simple now or simple later.
+* parameterize vs duplication
+* redundancy vs more logic
+* many simple things vs one complicated thing
+
+.Second, it is hard to constantly work on simplifying things.
+
+* E.g. passing all the detailed information is much easier than evaluating and reducing it to the minimal amount of necessary information
+* E.g. just implementing something the way that comes natural to you is much easier than to think long and hard about how to make the solution simpler
+
+
+So, how can you keep it simple?
 
 
