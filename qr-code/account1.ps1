@@ -1,0 +1,1 @@
+.\generate-qr.ps1 -Name "Your name" -IBAN "Your IBAN"
