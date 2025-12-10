@@ -1,0 +1,21 @@
+= What is happening: For real
+August 2025
+
+// navigate via URL: ...html#<slot>/<slide> 0-based
+
+include::../revealjs.header.adoc[]
+
+:stem:
+// :favicon: my-favicon.png
+
+== Slot 1, slide 1
+
+Content ...
+
+=== Slot 1, slide 2
+
+Content ...
+
+== Slot 2, slide 1
+
+== Thank you!

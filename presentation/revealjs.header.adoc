@@ -1,0 +1,11 @@
+:favicon:
+:revealjsdir: https://cdn.jsdelivr.net/npm/reveal.js@4.5.0
+:revealjs_theme: night
+:revealjs_transition: slide
+:revealjs_slideNumber: true
+:revealjs_width: 1920
+:revealjs_height: 1080
+:revealjs_margin: 0.05
+:revealjs_minScale: 0.2
+:revealjs_maxScale: 1.5
+:customcss: ../custom.css

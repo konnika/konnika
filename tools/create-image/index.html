@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon and image generator</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="icon-component.js"></script>
+    <script type="module" src="piechart-component.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="menu">
+            <button class="menu-item selected" id="menu-icon">Icon</button>
+            <button class="menu-item" id="menu-piechart">Pie chart</button>
+        </nav>
+        <main class="main-content" id="main-content">
+            <icon-component></icon-component>
+        </main>
+    </div>
+    <script>
+        const mainContent = document.getElementById('main-content');
+        const menuIcon = document.getElementById('menu-icon');
+        const menuPiechart = document.getElementById('menu-piechart');
+        const menuItems = [menuIcon, menuPiechart];
+
+        function setSelected(selectedBtn) {
+            menuItems.forEach(btn => btn.classList.remove('selected'));
+            selectedBtn.classList.add('selected');
+        }
+
+        menuIcon.addEventListener('click', () => {
+            setSelected(menuIcon);
+            mainContent.innerHTML = '<icon-component></icon-component>';
+        });
+        menuPiechart.addEventListener('click', () => {
+            setSelected(menuPiechart);
+            mainContent.innerHTML = '<piechart-component></piechart-component>';
+        });
+    </script>
+</body>
+</html>

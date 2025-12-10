@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f6fd;
+    color: #444;
+}
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+.menu {
+    width: 220px;
+    background: linear-gradient(180deg, #e3f0ff 0%, #dbeafe 100%);
+    box-shadow: 2px 0 8px rgba(100,150,200,0.10);
+    display: flex;
+    flex-direction: column;
+    padding-top: 2em;
+    border-right: 1px solid #b6d4f7;
+}
+.menu-item {
+    padding: 1em 2em;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1.1em;
+    color: #3777b7;
+    transition: background 0.2s, color 0.2s;
+}
+.menu-item.selected {
+    background: #b6d4f7;
+    color: #1a3556;
+    font-weight: bold;
+}
+.main-content {
+    flex: 1;
+    padding: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
