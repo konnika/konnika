@@ -35,11 +35,19 @@ fi
 
 FOLDER=$(dirname "$INPUT")
 BASENAME=$(basename "$INPUT" .adoc)
-OUTPUT="$FOLDER/$BASENAME.html"
+if command -v realpath >/dev/null 2>&1; then
+  ABS_FOLDER=$(realpath -m "$FOLDER")
+elif command -v readlink >/dev/null 2>&1; then
+  ABS_FOLDER=$(readlink -f "$FOLDER" 2>/dev/null || (cd "$FOLDER" 2>/dev/null && pwd -P))
+else
+  ABS_FOLDER=$(cd "$FOLDER" 2>/dev/null && pwd -P || printf "%s" "$FOLDER")
+fi
 
-echo "🔍 Watching folder: $(tput setaf 2)$FOLDER$(tput sgr0)"
+OUTPUT="$ABS_FOLDER/$BASENAME.html"
+
+echo "🔍 Watching folder: $(tput setaf 2)$ABS_FOLDER$(tput sgr0)"
 echo "📝 Input file: $(tput setaf 2)$INPUT$(tput sgr0)"
-echo "📄 Output file: $(tput setaf 2)$OUTPUT$(tput sgr0)"
+echo "📄 Output file: $(tput setaf 2)file://$OUTPUT$(tput sgr0)"
 echo "⏱  Sleep interval: $(tput setaf 2)$SLEEP seconds$(tput sgr0)"
 echo ""
 
@@ -51,7 +59,7 @@ echo "$(tput setaf 2)✔$(tput sgr0)"
 while true; do
   # Get the newest timestamp from all files in the folder (excluding OUTPUT file)
 #  find "$FOLDER" -type f ! -path "$OUTPUT" -printf '%T@ %p\n' 2>/dev/null | sort -rn
-  newest_input=$(find "$FOLDER" -type f ! -path "$OUTPUT" -printf '%T@\n' 2>/dev/null | sort -rn | head -1)
+  newest_input=$(find "$ABS_FOLDER" -type f ! -path "$OUTPUT" -printf '%T@\n' 2>/dev/null | sort -rn | head -1)
 
   # Get output timestamp (default to 0 if file doesn't exist)
   if [ -f "$OUTPUT" ]; then
