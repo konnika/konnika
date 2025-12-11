@@ -8,4 +8,8 @@
 :revealjs_margin: 0.05
 :revealjs_minScale: 0.2
 :revealjs_maxScale: 1.5
+:source-highlighter: highlight.js
+:highlightjs-theme: dark
 :customcss: ../custom.css
+:docinfo: shared
+:docinfodir: ../
