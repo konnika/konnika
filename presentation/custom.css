@@ -37,6 +37,11 @@
     font-size: 1.5em;
 }
 
+.no-scroll pre code {
+    overflow: visible !important;
+    max-height: none !important;
+}
+
 .text-center {
     text-align: center;
 }
@@ -44,4 +49,18 @@
 .text-center-big {
     text-align: center;
     font-size: 1.5em;
+}
+
+.arrow-list ul,
+.arrow-list ol {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+.arrow-list li::marker {
+  content: "\2192"; /* → */
+}
+.arrow-list li {
+  margin: 0.2em 0;
+  padding-left: 0.5em;
 }
