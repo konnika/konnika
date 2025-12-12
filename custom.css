@@ -1,0 +1,66 @@
+/* poor-mans 2col layout */
+.col-l {
+    float: left;
+    width: 50%
+}
+
+.col-r {
+    float: right;
+    width: 50%
+}
+
+.col-ll {
+    float: left;
+    width: 45%
+}
+
+.col-mm {
+    float: left;
+    left: 45%;
+    width: 10%
+}
+
+.col-rr {
+    float: right;
+    width: 45%
+}
+
+.little-smaller-font {
+    font-size: 0.75em;
+}
+
+.smaller-font {
+    font-size: 0.5em;
+}
+
+.big-font {
+    font-size: 1.5em;
+}
+
+.no-scroll pre code {
+    overflow: visible !important;
+    max-height: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-center-big {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.arrow-list ul,
+.arrow-list ol {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+.arrow-list li::marker {
+  content: "\2192"; /* → */
+}
+.arrow-list li {
+  margin: 0.2em 0;
+  padding-left: 0.5em;
+}
