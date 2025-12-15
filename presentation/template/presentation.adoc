@@ -8,14 +8,51 @@ include::../revealjs.header.adoc[]
 :stem:
 // :favicon: my-favicon.png
 
-== Slot 1, slide 1
+== Best Practices: Images
 
-Content ...
+// [plantuml,svg,width=80%]
+[svg,width=80%]
+----
+include::/mnt/c/dev/konnika/img/kiss.svg[]
+----
 
-=== Slot 1, slide 2
+=== Source Code
 
-Content ...
+[.no-scroll]
+[source,kotlin]
+----
+class CalculationServiceAdapter(
+    private val calculationServiceRestClient: CalculationServiceRestClient,
+    private val calculationServiceOperationSpec: CalculationServiceOperationSpecification
+) : CalculationServicePort {
 
-== Slot 2, slide 1
+    override fun calculate(calculation: Calculation): CalculationResult {
+        // these methods are defined in the adapter as kotlin extension functions, not in the domain
+        val request = calculation.mapDomainToRequest(calculationServiceOperationSpec.requestMappingSpec())
+        val path = calculation.getEndpointPath(calculationServiceOperationSpec.pathMappingSpec())
+
+        val response = calculationServiceRestClient.request(path, request)
+
+        return response.mapResponseToDomain(calculationServiceOperationSpec.responseMappingSpec())
+    }
+}
+----
+
+[.columns]
+== Columns
+
+[.column.is-one-third.has-right-text]
+* Use [.columns] and [.column]
+* Along with modifiers like [.is-one-third], [.has-text-centered], [.has-left-text], [.has-right-text]
+* Even more [.is-half], [.is-two-thirds], [.is-one-quarter], [.is-three-quarters
+* Or [.is-v-centered] to vertically center content
+
+[.column.has-left-text]
+* They are available from reveal.js automatically
+* Nothing else to do, just use them!
+
+=== Math formulas
+
+stem:[E = mc^2]
 
 == Thank you!
