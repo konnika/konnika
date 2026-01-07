@@ -21,6 +21,26 @@
             stroke-width="1" 
             opacity="0.05"/>
     </pattern>
+    
+    <!-- Speckle texture: noise to create transparent spots like real ink -->
+    <filter id="stampSpeckleFilter" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="7" result="noise"/>
+      <!-- Threshold noise into blotches used as hole mask alpha -->
+      <feColorMatrix in="noise" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 2 -0.7" result="holes"/>
+      <!-- Subtract blotches from source to punch small transparent spots -->
+      <feComposite in="SourceGraphic" in2="holes" operator="out" result="spotted"/>
+      <!-- Slight edge roughening for a stamped look -->
+      <feDisplacementMap in="spotted" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Mask driven by noise to introduce transparency (applied to whole stamp) -->
+    <mask id="stampSpeckleMask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080">
+      <rect x="0" y="0" width="1920" height="1080" fill="white" filter="url(#stampSpeckleFilter)"/>
+    </mask>
   </defs>
 
   <!-- Background with gradient -->
@@ -55,9 +75,9 @@
     keep it simple, stupid
   </text>
 
-  <!-- Bottom-left MSG stamp -->
-  <g id="msg-stamp" transform="translate(40, 860) rotate(30, 180, 65)">
-    <rect x="0" y="0" width="360" height="130" fill="none" stroke="#ff2b2b" stroke-width="6" rx="12" ry="12"/>
-    <text x="180" y="90" font-family="Arial, sans-serif" font-size="96" font-weight="bold" fill="#ff2b2b" text-anchor="middle" letter-spacing="2">stamp</text>
+  <!-- Bottom-left stamp -->
+  <g id="msg-stamp" transform="translate(40, 860) rotate(30, 180, 65)" mask="url(#stampSpeckleMask)">
+    <rect x="0" y="0" width="360" height="130" fill="none" stroke="#ff2b2b" stroke-width="8" rx="12" ry="12"/>
+    <text x="180" y="100" font-family="Arial, sans-serif" font-size="96" font-weight="bold" fill="#ff2b2b" text-anchor="middle" letter-spacing="2">DATEV</text>
   </g>
 </svg>
