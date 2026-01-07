@@ -76,8 +76,8 @@
   </text>
 
   <!-- Bottom-left stamp -->
-  <g id="msg-stamp" transform="translate(40, 860) rotate(30, 180, 65)" mask="url(#stampSpeckleMask)">
-    <rect x="0" y="0" width="360" height="130" fill="none" stroke="#ff2b2b" stroke-width="8" rx="12" ry="12"/>
-    <text x="180" y="100" font-family="Arial, sans-serif" font-size="96" font-weight="bold" fill="#ff2b2b" text-anchor="middle" letter-spacing="2">DATEV</text>
+  <g id="msg-stamp" transform="translate(40, 700) rotate(30, 180, 65)" mask="url(#stampSpeckleMask)">
+    <rect x="0" y="0" width="740" height="130" fill="none" stroke="#ff2b2b" stroke-width="8" rx="12" ry="12"/>
+    <text x="370" y="100" font-family="Arial, sans-serif" font-size="96" font-weight="bold" fill="#ff2b2b" text-anchor="middle" letter-spacing="2">your text here</text>
   </g>
 </svg>
