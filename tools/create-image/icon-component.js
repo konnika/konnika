@@ -3,6 +3,7 @@ class IconComponent extends HTMLElement {
     ctx
     colorPicker
     textColorPicker
+    transparentCheckbox
     nameInput
     textInput
 
@@ -25,21 +26,23 @@ class IconComponent extends HTMLElement {
         return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
     }
 
-    draw(ctx, width, height, text, backgroundColor, textColor, lineCount) {
+    draw(ctx, width, height, text, backgroundColor, textColor, lineCount, isTransparent) {
         ctx.clearRect(0, 0, width, height);
         ctx.fillStyle = "rgba(0,0,0,0)";
         ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = backgroundColor;
-        ctx.beginPath();
-        ctx.roundRect(0, 0, width, height, (width + height) / 2 / 5);
-        ctx.fill();
+        if (!isTransparent) {
+            ctx.fillStyle = backgroundColor;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, width, height, (width + height) / 2 / 5);
+            ctx.fill();
+        }
         let fontSize = 360;
         ctx.fillStyle = textColor;
         ctx.font = `bold ${fontSize}px Arial`;
         ctx.textAlign = "center";
         const lines = text.split(',');
         let textSize = ctx.measureText(lines[0]);
-        while (textSize.width > width * 0.9) {
+        while (textSize.width > width * 0.6) {
             fontSize *= 0.95;
             ctx.font = `bold ${fontSize}px Arial`;
             textSize = ctx.measureText(lines[0]); // TODO use the longest line AND consider lineCount
@@ -60,12 +63,13 @@ class IconComponent extends HTMLElement {
 
     updateCanvas() {
         const ctx = this.canvas.getContext("2d");
-        this.draw(ctx, this.canvas.width, this.canvas.height, this.textInput.value, this.colorPicker.value, this.textColorPicker.value);
+        this.draw(ctx, this.canvas.width, this.canvas.height, this.textInput.value, this.colorPicker.value, this.textColorPicker.value, null, this.transparentCheckbox.checked);
     }
 
     connectHtmlElements() {
         this.colorPicker = this.shadowRoot.getElementById("colorPicker");
         this.textColorPicker = this.shadowRoot.getElementById("textColorPicker");
+        this.transparentCheckbox = this.shadowRoot.getElementById("transparentCheckbox");
         this.nameInput = this.shadowRoot.getElementById("nameInput");
         this.textInput = this.shadowRoot.getElementById("textInput");
         this.canvas = this.shadowRoot.getElementById("labCanvas");
@@ -81,6 +85,7 @@ class IconComponent extends HTMLElement {
     addEventListeners() {
         this.colorPicker.addEventListener("input", () => this.updateCanvas());
         this.textColorPicker.addEventListener("input", () => this.updateCanvas());
+        this.transparentCheckbox.addEventListener("change", () => this.updateCanvas());
         this.textInput.addEventListener("input", () => this.updateCanvas());
         this.shadowRoot.getElementById("saveBtn").addEventListener("click", () => this.download());
         this.shadowRoot.getElementById("randomizeBtn").addEventListener("click", () => {
@@ -107,11 +112,13 @@ class IconComponent extends HTMLElement {
         </div>
         <div>
             <label for="textInput">Icon text</label>
-            <input type="text" id="textInput" value="GA#2"/>
+            <input type="text" id="textInput" value="DI,VA"/>
         </div>
         <div>
             <label for="colorPicker">Background color</label>
             <input type="color" id="colorPicker"/>
+            <label for="transparentCheckbox" style="margin-left: 10px;">Transparent</label>
+            <input type="checkbox" id="transparentCheckbox"/>
         </div>
         <div>
             <label for="textColorPicker">Text color</label>
