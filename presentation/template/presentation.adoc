@@ -8,12 +8,23 @@ include::../revealjs.header.adoc[]
 :stem:
 // :favicon: my-favicon.png
 
-== Best Practices: Images
+// :title-slide-background-image: background.svg
+// :title-slide-background-size: 75%
+// :title-slide-background-position: center
+// :title-slide-background-repeat: no-repeat
+
+== Background images
+
+image::background.svg[background, size=75%, position=center, repeat=no-repeat]
+
+Your text here
+
+== Images
 
 // [plantuml,svg,width=80%]
 [svg,width=80%]
 ----
-include::/mnt/c/dev/konnika/img/kiss.svg[]
+include::diagram.svg[]
 ----
 
 === Source Code
