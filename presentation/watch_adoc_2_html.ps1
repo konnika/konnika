@@ -12,9 +12,10 @@ if ([string]::IsNullOrWhiteSpace($PROJECT)) {
 
 # Replace backslashes with forward slashes
 $PROJECT = $PROJECT.Replace('\', '/')
+$DIR = Get-Location
 
-$inputFile = "c:\dev\projects\personal\konnika\presentation\$PROJECT\$PROJECT.adoc"
-$outputFile = "c:\dev\projects\personal\konnika\presentation\$PROJECT\$PROJECT.html"
+$inputFile = "${DIR}\$PROJECT\$PROJECT.adoc"
+$outputFile = "${DIR}.\$PROJECT\$PROJECT.html"
 
 Write-Host "Input file: $inputFile"
 Write-Host "Output file: $outputFile"
@@ -31,7 +32,7 @@ while ($true) {
 
     if ($shouldRebuild) {
         Write-Host "Rebuilding presentation..." -NoNewline
-        docker run -v "c:\dev\projects\personal\konnika\presentation:/documents" asciidoctor/docker-asciidoctor asciidoctor-revealjs -r asciidoctor-diagram -o $PROJECT/$PROJECT.html $PROJECT/$PROJECT.adoc
+        docker run -v "${DIR}:/documents" asciidoctor/docker-asciidoctor asciidoctor-revealjs -r asciidoctor-diagram -o $PROJECT/$PROJECT.html $PROJECT/$PROJECT.adoc
         Write-Host " done."
     }
 
