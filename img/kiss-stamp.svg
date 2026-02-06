@@ -57,12 +57,9 @@
         font-weight="bold" 
         fill="#ffffff" 
         text-anchor="middle" 
-        letter-spacing="15"
         stroke="#ffffff"
         stroke-width="2"
-        paint-order="stroke">
-    KISS
-  </text>
+        paint-order="stroke">KISS</text>
 
   <!-- Optional subtitle -->
   <text x="960" 
@@ -76,8 +73,8 @@
   </text>
 
   <!-- Bottom-left stamp -->
-  <g id="msg-stamp" transform="translate(40, 700) rotate(30, 180, 65)" mask="url(#stampSpeckleMask)">
-    <rect x="0" y="0" width="740" height="130" fill="none" stroke="#2baa2b" stroke-width="8" rx="12" ry="12"/>
-    <text x="370" y="100" font-family="Arial, sans-serif" font-size="96" font-weight="bold" fill="#2baa2b" text-anchor="middle" letter-spacing="2">HOME</text>
+  <g id="msg-stamp" transform="translate(100, 700) rotate(30, 180, 65)" mask="url(#stampSpeckleMask)">
+    <rect x="0" y="0" width="440" height="130" fill="none" stroke="#aa2b2b" stroke-width="8" rx="12" ry="12"/>
+    <text x="220" y="100" font-family="Arial, sans-serif" font-size="96" font-weight="bold" fill="#aa2b2b" text-anchor="middle" letter-spacing="2">DATEV</text>
   </g>
 </svg>
