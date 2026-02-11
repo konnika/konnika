@@ -6,6 +6,8 @@ class IconComponent extends HTMLElement {
     transparentCheckbox
     nameInput
     textInput
+    emojiPickerBtn
+    emojiPopup
 
     connectedCallback() {
         this.attachShadow({mode: 'open'});
@@ -73,12 +75,14 @@ class IconComponent extends HTMLElement {
         this.nameInput = this.shadowRoot.getElementById("nameInput");
         this.textInput = this.shadowRoot.getElementById("textInput");
         this.canvas = this.shadowRoot.getElementById("labCanvas");
+        this.emojiPickerBtn = this.shadowRoot.getElementById("emojiPickerBtn");
+        this.emojiPopup = this.shadowRoot.getElementById("emojiPopup");
     }
 
     initValues() {
         // Initialfarben setzen
-        this.colorPicker.value = this.randomColor();
-        this.textColorPicker.value = this.randomColor();
+        this.colorPicker.value = '#0ddeb4';
+        this.textColorPicker.value = '#1969ae';
         this.updateCanvas();
     }
 
@@ -93,6 +97,19 @@ class IconComponent extends HTMLElement {
             this.textColorPicker.value = this.randomColor();
             this.updateCanvas();
         });
+        this.emojiPickerBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            this.toggleEmojiPopup();
+        });
+        this.shadowRoot.querySelectorAll(".emoji-item").forEach(emoji => {
+            emoji.addEventListener("click", () => this.insertEmoji(emoji.textContent));
+        });
+        // Close popup when clicking outside
+        document.addEventListener("click", (e) => {
+            if (this.emojiPopup.style.display === "block" && !this.emojiPopup.contains(e.target)) {
+                this.emojiPopup.style.display = "none";
+            }
+        });
     }
 
     download() {
@@ -104,6 +121,26 @@ class IconComponent extends HTMLElement {
         a.click();
     }
 
+    toggleEmojiPopup() {
+        const isVisible = this.emojiPopup.style.display === "block";
+        this.emojiPopup.style.display = isVisible ? "none" : "block";
+    }
+
+    insertEmoji(emoji) {
+        this.textInput.value = emoji;
+        this.updateCanvas();
+        this.emojiPopup.style.display = "none";
+    }
+
+    generateEmojiHTML() {
+        return EMOJI_DATA.map(category => `
+            <div class="emoji-category">
+                <div class="emoji-category-title">${category.title}</div>
+                ${category.emojis.map(emoji => `<span class="emoji-item">${emoji}</span>`).join('')}
+            </div>
+        `).join('');
+    }
+
     html() {
         return `<div>
             <label for="nameInput">Icon name</label>
@@ -113,6 +150,10 @@ class IconComponent extends HTMLElement {
         <div>
             <label for="textInput">Icon text</label>
             <input type="text" id="textInput" value="DI,VA"/>
+            <button id="emojiPickerBtn" type="button">😀</button>
+            <div id="emojiPopup" class="emoji-popup">
+                ${this.generateEmojiHTML()}
+            </div>
         </div>
         <div>
             <label for="colorPicker">Background color</label>
@@ -141,6 +182,53 @@ class IconComponent extends HTMLElement {
             canvas {
             margin-top: 10px;
             box-shadow: 0 2px 12px rgba(100, 100, 150, 0.08);
+        }
+            #emojiPickerBtn {
+            font-size: 1.2em;
+            padding: 0.2em 0.5em;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 4px;
+        }
+            #emojiPickerBtn:hover {
+            background: #f0f0f0;
+        }
+            .emoji-popup {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+            .emoji-category {
+            margin-bottom: 15px;
+        }
+            .emoji-category-title {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+            .emoji-item {
+            display: inline-block;
+            font-size: 1.5em;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+            .emoji-item:hover {
+            background: #f0f0f0;
         }
         </style>
             `;
