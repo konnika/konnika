@@ -8,6 +8,10 @@ class IconComponent extends HTMLElement {
     textInput
     emojiPickerBtn
     emojiPopup
+    fontSizeSlider
+    fontSizeValue
+    textOffsetX = 0
+    textOffsetY = 0
 
     connectedCallback() {
         this.attachShadow({mode: 'open'});
@@ -28,7 +32,7 @@ class IconComponent extends HTMLElement {
         return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
     }
 
-    draw(ctx, width, height, text, backgroundColor, textColor, lineCount, isTransparent) {
+    draw(ctx, width, height, text, backgroundColor, textColor, lineCount, isTransparent, fontSizeMultiplier, offsetX, offsetY) {
         ctx.clearRect(0, 0, width, height);
         ctx.fillStyle = "rgba(0,0,0,0)";
         ctx.fillRect(0, 0, width, height);
@@ -38,34 +42,36 @@ class IconComponent extends HTMLElement {
             ctx.roundRect(0, 0, width, height, (width + height) / 2 / 5);
             ctx.fill();
         }
-        let fontSize = 360;
+        let fontSize = 360 * fontSizeMultiplier;
         ctx.fillStyle = textColor;
         ctx.font = `bold ${fontSize}px Arial`;
         ctx.textAlign = "center";
         const lines = text.split(',');
         let textSize = ctx.measureText(lines[0]);
-        while (textSize.width > width * 0.6) {
-            fontSize *= 0.95;
-            ctx.font = `bold ${fontSize}px Arial`;
-            textSize = ctx.measureText(lines[0]); // TODO use the longest line AND consider lineCount
-        }
+        // while (textSize.width > width * 0.9 && fontSizeMultiplier >= 1) {
+        //     fontSize *= 0.95;
+        //     ctx.font = `bold ${fontSize}px Arial`;
+        //     textSize = ctx.measureText(lines[0]); // TODO use the longest line AND consider lineCount
+        // }
         const textHeight = textSize.actualBoundingBoxAscent + textSize.actualBoundingBoxDescent;
-        const y = height / 2;
+        const y = height / 2 + offsetY;
+        const x = width / 2 + offsetX;
         if (lines.length === 1) {
-            ctx.fillText(lines[0], width / 2, y + textHeight / 2);
+            ctx.fillText(lines[0], x, y + textHeight / 2);
         } else if (lines.length === 2) {
-            ctx.fillText(lines[0], width / 2, y - textHeight * 0.05);
-            ctx.fillText(lines[1], width / 2, y + textHeight);
+            ctx.fillText(lines[0], x, y - textHeight * 0.05);
+            ctx.fillText(lines[1], x, y + textHeight);
         } else if (lines.length === 3) {
-            ctx.fillText(lines[0], width / 2, y - textHeight * 0.9);
-            ctx.fillText(lines[1], width / 2, y + textHeight * 0.15);
-            ctx.fillText(lines[2], width / 2, y + textHeight * 1.2);
+            ctx.fillText(lines[0], x, y - textHeight * 0.9);
+            ctx.fillText(lines[1], x, y + textHeight * 0.15);
+            ctx.fillText(lines[2], x, y + textHeight * 1.2);
         } // TODO write a loop instead of hardcoding
     }
 
     updateCanvas() {
         const ctx = this.canvas.getContext("2d");
-        this.draw(ctx, this.canvas.width, this.canvas.height, this.textInput.value, this.colorPicker.value, this.textColorPicker.value, null, this.transparentCheckbox.checked);
+        const fontSizeMultiplier = parseFloat(this.fontSizeSlider.value);
+        this.draw(ctx, this.canvas.width, this.canvas.height, this.textInput.value, this.colorPicker.value, this.textColorPicker.value, null, this.transparentCheckbox.checked, fontSizeMultiplier, this.textOffsetX, this.textOffsetY);
     }
 
     connectHtmlElements() {
@@ -77,6 +83,8 @@ class IconComponent extends HTMLElement {
         this.canvas = this.shadowRoot.getElementById("labCanvas");
         this.emojiPickerBtn = this.shadowRoot.getElementById("emojiPickerBtn");
         this.emojiPopup = this.shadowRoot.getElementById("emojiPopup");
+        this.fontSizeSlider = this.shadowRoot.getElementById("fontSizeSlider");
+        this.fontSizeValue = this.shadowRoot.getElementById("fontSizeValue");
     }
 
     initValues() {
@@ -110,6 +118,35 @@ class IconComponent extends HTMLElement {
                 this.emojiPopup.style.display = "none";
             }
         });
+        // Font size slider
+        this.fontSizeSlider.addEventListener("input", () => {
+            this.fontSizeValue.textContent = this.fontSizeSlider.value;
+            this.updateCanvas();
+        });
+        // Position controls
+        this.shadowRoot.getElementById("moveLeft").addEventListener("click", () => {
+            this.textOffsetX -= 10;
+            this.updateCanvas();
+        });
+        this.shadowRoot.getElementById("moveRight").addEventListener("click", () => {
+            this.textOffsetX += 10;
+            this.updateCanvas();
+        });
+        this.shadowRoot.getElementById("moveUp").addEventListener("click", () => {
+            this.textOffsetY -= 10;
+            this.updateCanvas();
+        });
+        this.shadowRoot.getElementById("moveDown").addEventListener("click", () => {
+            this.textOffsetY += 10;
+            this.updateCanvas();
+        });
+        this.shadowRoot.getElementById("resetPosition").addEventListener("click", () => {
+            this.textOffsetX = 0;
+            this.textOffsetY = 0;
+            this.fontSizeSlider.value = "1";
+            this.fontSizeValue.textContent = "1";
+            this.updateCanvas();
+        });
     }
 
     download() {
@@ -127,7 +164,7 @@ class IconComponent extends HTMLElement {
     }
 
     insertEmoji(emoji) {
-        this.textInput.value = emoji;
+        this.textInput.value += emoji;
         this.updateCanvas();
         this.emojiPopup.style.display = "none";
     }
@@ -165,6 +202,27 @@ class IconComponent extends HTMLElement {
             <label for="textColorPicker">Text color</label>
             <input type="color" id="textColorPicker"/>
         </div>
+        <div>
+            <label for="fontSizeSlider">Text size</label>
+            <input type="range" id="fontSizeSlider" min="0.3" max="2" step="0.1" value="1"/>
+            <span id="fontSizeValue">1</span>
+        </div>
+        <div class="position-controls">
+            <label>Text position</label>
+            <div class="arrow-buttons">
+                <div class="arrow-row">
+                    <button id="moveUp" class="arrow-btn" type="button">↑</button>
+                </div>
+                <div class="arrow-row">
+                    <button id="moveLeft" class="arrow-btn" type="button">←</button>
+                    <button id="resetPosition" class="reset-btn" type="button">⊙</button>
+                    <button id="moveRight" class="arrow-btn" type="button">→</button>
+                </div>
+                <div class="arrow-row">
+                    <button id="moveDown" class="arrow-btn" type="button">↓</button>
+                </div>
+            </div>
+        </div>
         <button id="randomizeBtn">Randomize Colors</button>
         <br>
         <canvas id="labCanvas" width="512" height="512"></canvas>
@@ -182,6 +240,61 @@ class IconComponent extends HTMLElement {
             canvas {
             margin-top: 10px;
             box-shadow: 0 2px 12px rgba(100, 100, 150, 0.08);
+        }
+            #fontSizeSlider {
+            width: 150px;
+            vertical-align: middle;
+        }
+            #fontSizeValue {
+            display: inline-block;
+            min-width: 30px;
+            text-align: center;
+        }
+            .position-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+            .arrow-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+            .arrow-row {
+            display: flex;
+            gap: 2px;
+            justify-content: center;
+        }
+            .arrow-btn {
+            width: 35px;
+            height: 35px;
+            font-size: 1.3em;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 4px;
+        }
+            .arrow-btn:hover {
+            background: #f0f0f0;
+        }
+            .arrow-btn:active {
+            background: #e0e0e0;
+        }
+            .reset-btn {
+            width: 35px;
+            height: 35px;
+            font-size: 1.3em;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: #fff3cd;
+            border-radius: 4px;
+        }
+            .reset-btn:hover {
+            background: #ffe69c;
         }
             #emojiPickerBtn {
             font-size: 1.2em;
