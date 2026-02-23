@@ -20,6 +20,7 @@ $outputFile = "${DIR}.\$PROJECT\$PROJECT.html"
 Write-Host "Input file: $inputFile"
 Write-Host "Output file: $outputFile"
 
+$browserStarted = $false
 while ($true) {
     $shouldRebuild = $false
 
@@ -34,6 +35,10 @@ while ($true) {
         Write-Host "Rebuilding presentation..." -NoNewline
         docker run -v "${DIR}:/documents" asciidoctor/docker-asciidoctor asciidoctor-revealjs -r asciidoctor-diagram -o $PROJECT/$PROJECT.html $PROJECT/$PROJECT.adoc
         Write-Host " done."
+        if (-not $browserStarted) {
+            Start-Process $outputFile
+            $browserStarted = $true
+        }
     }
 
     Start-Sleep -Seconds 1
