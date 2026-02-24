@@ -1,8 +1,6 @@
 = What is happening: For real
 August 2025
 
-// navigate via URL: ...html#<slot>/<slide> 0-based
-
 include::../revealjs.header.adoc[]
 
 :stem:
@@ -65,5 +63,11 @@ class CalculationServiceAdapter(
 === Math formulas
 
 stem:[E = mc^2]
+
+== Navigation & Export
+
+Navigate via URL (deep link to slide): presentation.html#<slot>/<slide>, but 0-based
+
+Export as PDF via URL: presentation.html?print-pdf, then print to PDF from the browser, possibly landscape orientation and "background graphics" enabled for best results
 
 == Thank you!
