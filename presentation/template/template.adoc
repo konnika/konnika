@@ -1,0 +1,73 @@
+= What is happening: For real
+August 2025
+
+include::../revealjs.header.adoc[]
+
+:stem:
+// :favicon: my-favicon.png
+
+// :title-slide-background-image: background.svg
+// :title-slide-background-size: 75%
+// :title-slide-background-position: center
+// :title-slide-background-repeat: no-repeat
+
+== Background images
+
+image::background.svg[background, size=75%, position=center, repeat=no-repeat]
+
+Your text here
+
+== Images
+
+// [plantuml,svg,width=80%]
+[svg,width=80%]
+----
+include::diagram.svg[]
+----
+
+=== Source Code
+
+[.no-scroll]
+[source,kotlin]
+----
+class CalculationServiceAdapter(
+    private val calculationServiceRestClient: CalculationServiceRestClient,
+    private val calculationServiceOperationSpec: CalculationServiceOperationSpecification
+) : CalculationServicePort {
+
+    override fun calculate(calculation: Calculation): CalculationResult {
+        // these methods are defined in the adapter as kotlin extension functions, not in the domain
+        val request = calculation.mapDomainToRequest(calculationServiceOperationSpec.requestMappingSpec())
+        val path = calculation.getEndpointPath(calculationServiceOperationSpec.pathMappingSpec())
+
+        val response = calculationServiceRestClient.request(path, request)
+
+        return response.mapResponseToDomain(calculationServiceOperationSpec.responseMappingSpec())
+    }
+}
+----
+
+[.columns]
+== Columns
+
+[.column.is-one-third.has-right-text]
+* Use [.columns] and [.column]
+* Along with modifiers like [.is-one-third], [.has-text-centered], [.has-left-text], [.has-right-text]
+* Even more [.is-half], [.is-two-thirds], [.is-one-quarter], [.is-three-quarters
+* Or [.is-v-centered] to vertically center content
+
+[.column.has-left-text]
+* They are available from reveal.js automatically
+* Nothing else to do, just use them!
+
+=== Math formulas
+
+stem:[E = mc^2]
+
+== Navigation & Export
+
+Navigate via URL (deep link to slide): presentation.html#<slot>/<slide>, but 0-based
+
+Export as PDF via URL: presentation.html?print-pdf, then print to PDF from the browser, possibly landscape orientation and "background graphics" enabled for best results
+
+== Thank you!
