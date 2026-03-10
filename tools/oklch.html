@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKLCH Color Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 5px;
+            background: #444;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #66BB6A;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            border: none;
+        }
+
+        .value-display {
+            min-width: 60px;
+            background: #1a1a1a;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .color-display {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-preview {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.2s ease;
+        }
+
+        .color-info {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+
+        .color-code-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .copy-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .copy-button:hover {
+            background: #66BB6A;
+        }
+
+        .copy-button:active {
+            transform: scale(0.98);
+        }
+
+        .presets {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .presets h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+        }
+
+        .preset-color {
+            height: 80px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .preset-color:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .preset-label {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 8px;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OKLCH Color Tester</h1>
+        
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <label>Lightness (L): 0-1</label>
+                    <div class="slider-container">
+                        <input type="range" id="lightness" min="0" max="100" value="65" step="1">
+                        <span class="value-display" id="lightnessValue">0.65</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Chroma (C): 0-0.4</label>
+                    <div class="slider-container">
+                        <input type="range" id="chroma" min="0" max="40" value="15" step="1">
+                        <span class="value-display" id="chromaValue">0.15</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Hue (H): 0-360°</label>
+                    <div class="slider-container">
+                        <input type="range" id="hue" min="0" max="360" value="142" step="1">
+                        <span class="value-display" id="hueValue">142</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="color-display">
+                <div class="color-preview" id="colorPreview"></div>
+                <div class="color-info">
+                    <div class="color-code-label">OKLCH Color</div>
+                    <div class="color-code" id="colorCode">oklch(0.65 0.15 142)</div>
+                    <button class="copy-button" id="copyButton">Copy to Clipboard</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="presets">
+            <h2>Color Presets</h2>
+            <div class="preset-grid" id="presetGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        const lightnessSlider = document.getElementById('lightness');
+        const chromaSlider = document.getElementById('chroma');
+        const hueSlider = document.getElementById('hue');
+        
+        const lightnessValue = document.getElementById('lightnessValue');
+        const chromaValue = document.getElementById('chromaValue');
+        const hueValue = document.getElementById('hueValue');
+        
+        const colorPreview = document.getElementById('colorPreview');
+        const colorCode = document.getElementById('colorCode');
+        const copyButton = document.getElementById('copyButton');
+
+        // Preset colors
+        const presets = [
+            { name: 'Red', l: 0.55, c: 0.22, h: 25 },
+            { name: 'Orange', l: 0.70, c: 0.20, h: 60 },
+            { name: 'Yellow', l: 0.85, c: 0.18, h: 95 },
+            { name: 'Green', l: 0.65, c: 0.20, h: 142 },
+            { name: 'Cyan', l: 0.70, c: 0.15, h: 195 },
+            { name: 'Blue', l: 0.55, c: 0.20, h: 250 },
+            { name: 'Purple', l: 0.55, c: 0.20, h: 300 },
+            { name: 'Magenta', l: 0.65, c: 0.25, h: 330 },
+            { name: 'Light Gray', l: 0.85, c: 0.02, h: 0 },
+            { name: 'Gray', l: 0.60, c: 0.02, h: 0 },
+            { name: 'Dark Gray', l: 0.35, c: 0.02, h: 0 },
+            { name: 'Black', l: 0.10, c: 0.00, h: 0 },
+            { name: 'msg for banking', l: 0.50, c: 0.20, h: 12 },
+        ];
+
+        function updateColor() {
+            const l = lightnessSlider.value / 100;
+            const c = chromaSlider.value / 100;
+            const h = hueSlider.value;
+
+            lightnessValue.textContent = l.toFixed(2);
+            chromaValue.textContent = c.toFixed(2);
+            hueValue.textContent = h;
+
+            const oklchColor = `oklch(${l.toFixed(2)} ${c.toFixed(2)} ${h})`;
+            colorPreview.style.backgroundColor = oklchColor;
+            colorCode.textContent = oklchColor;
+        }
+
+        function setColor(l, c, h) {
+            lightnessSlider.value = Math.round(l * 100);
+            chromaSlider.value = Math.round(c * 100);
+            hueSlider.value = h;
+            updateColor();
+        }
+
+        lightnessSlider.addEventListener('input', updateColor);
+        chromaSlider.addEventListener('input', updateColor);
+        hueSlider.addEventListener('input', updateColor);
+
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(colorCode.textContent);
+            const originalText = copyButton.textContent;
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => {
+                copyButton.textContent = originalText;
+            }, 1500);
+        });
+
+        // Create preset buttons
+        const presetGrid = document.getElementById('presetGrid');
+        presets.forEach(preset => {
+            const presetDiv = document.createElement('div');
+            presetDiv.style.textAlign = 'center';
+            
+            const colorBox = document.createElement('div');
+            colorBox.className = 'preset-color';
+            colorBox.style.backgroundColor = `oklch(${preset.l} ${preset.c} ${preset.h})`;
+            colorBox.title = preset.name;
+            colorBox.addEventListener('click', () => {
+                setColor(preset.l, preset.c, preset.h);
+            });
+            
+            const label = document.createElement('div');
+            label.className = 'preset-label';
+            label.textContent = preset.name;
+            
+            presetDiv.appendChild(colorBox);
+            presetDiv.appendChild(label);
+            presetGrid.appendChild(presetDiv);
+        });
+
+        // Initialize
+        updateColor();
+    </script>
+</body>
+</html>
