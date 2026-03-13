@@ -1,1 +1,0 @@
-docker run -v "c:\dev\projects\personal\konnika\presentation:/documents" asciidoctor/docker-asciidoctor asciidoctor-revealjs -r asciidoctor-diagram -o diva-start/diva-start.html diva-start/diva-start.adoc
