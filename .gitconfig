@@ -1,0 +1,19 @@
+[alias]
+	ls = status
+	co = checkout
+	pr = pull --rebase
+	logl = log '--date=format:%Y-%m-%d %H:%M:%S' '--format=%C(red)%h %C(cyan)%ad %C(green)%an %C(yellow)%d %Creset%s' -20
+	logg = log '--date=format:%Y-%m-%d %H:%M:%S' '--format=%C(red)%h %C(cyan)%ad %C(green)%an %C(yellow)%d %Creset%s' --graph -20
+	logn = log '--date=format:%Y-%m-%d %H:%M:%S' '--format=%C(red)%h %C(cyan)%ad %C(green)%an %C(yellow)%d %Creset%s' --name-status -20
+	shown = show --name-status
+	difff = "diff --ignore-space-at-eol"
+	amend = "commit --amend --no-edit"
+[color "status"]
+	branch = green black
+[init]
+	defaultBranch = main
+[core]
+	autocrlf = true
+	longpaths = true
+[pull]
+	rebase = true
