@@ -12,8 +12,8 @@
 	branch = green black
 [init]
 	defaultBranch = main
-[core]
-	autocrlf = true
-	longpaths = true
+# [core]
+# 	autocrlf = true
+# 	longpaths = true
 [pull]
 	rebase = true
