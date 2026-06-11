@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>SVG -> PNG Export (No Install)</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: #e5e7eb;
+        }
+
+        .wrap {
+            max-width: 980px;
+            margin: 24px auto;
+            padding: 16px;
+        }
+
+        .card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #4b5563;
+            background: #111827;
+            color: #f9fafb;
+            margin-bottom: 12px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 14px;
+            border: 1px solid #4b5563;
+            border-radius: 8px;
+            background: #2563eb;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button.secondary {
+            background: #374151;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #cbd5e1;
+            min-height: 1.2em;
+        }
+
+        canvas {
+            max-width: 100%;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            background: #0b1220;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #9ca3af;
+            line-height: 1.4;
+        }
+
+        code {
+            background: #111827;
+            border: 1px solid #374151;
+            border-radius: 6px;
+            padding: 1px 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="card">
+        <h2 style="margin-top:0">SVG -> PNG Export (Browser, no install)</h2>
+
+        <label for="svgPath">SVG Pfad (relativ zu dieser HTML-Datei)</label>
+        <input id="svgPath" type="text" value="../img/kiss-tolino.svg"/>
+
+        <div class="row">
+            <div>
+                <label for="width">Basis-Breite (px)</label>
+                <input id="width" type="number" value="1072" min="1"/>
+            </div>
+            <div>
+                <label for="height">Basis-Höhe (px)</label>
+                <input id="height" type="number" value="1448" min="1"/>
+            </div>
+        </div>
+
+        <div class="btns">
+            <button id="previewBtn" class="secondary">Preview laden</button>
+            <button id="export1x">PNG export 1x</button>
+            <button id="export2x">PNG export 2x</button>
+            <button id="export3x">PNG export 3x</button>
+        </div>
+        <div class="status" id="status"></div>
+        <p class="hint">
+            Tipp: Öffne die Datei über einen lokalen Webserver (nicht per <code>file://</code>), damit Laden sicher
+            funktioniert.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-top:0">Preview</h3>
+        <canvas id="preview" width="536" height="724"></canvas>
+    </div>
+</div>
+
+<script>
+    const $ = (id) => document.getElementById(id);
+    const svgPathInput = $("svgPath");
+    const widthInput = $("width");
+    const heightInput = $("height");
+    const statusEl = $("status");
+    const canvas = $("preview");
+    const ctx = canvas.getContext("2d");
+
+    function setStatus(msg, isError = false) {
+        statusEl.textContent = msg;
+        statusEl.style.color = isError ? "#fca5a5" : "#cbd5e1";
+    }
+
+    function baseName(path) {
+        const clean = path.split("?")[0].split("#")[0];
+        const name = clean.split("/").pop() || "export";
+        return name.replace(/\.svg$/i, "") || "export";
+    }
+
+    async function loadSvgText(path) {
+        const res = await fetch(path, {cache: "no-store"});
+        if (!res.ok) {
+            throw new Error("Konnte SVG nicht laden: HTTP " + res.status);
+        }
+        return await res.text();
+    }
+
+    async function renderToCanvas(scale = 1, forPreview = false) {
+        const path = svgPathInput.value.trim();
+        const w = Number(widthInput.value);
+        const h = Number(heightInput.value);
+
+        if (!path) throw new Error("SVG Pfad fehlt.");
+        if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) {
+            throw new Error("Breite/Höhe müssen > 0 sein.");
+        }
+
+        const svgText = await loadSvgText(path);
+        const blob = new Blob([svgText], {type: "image/svg+xml;charset=utf-8"});
+        const url = URL.createObjectURL(blob);
+
+        try {
+            const img = new Image();
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = () => reject(new Error("SVG konnte nicht gerendert werden."));
+                img.src = url;
+            });
+
+            const targetW = Math.round(w * scale);
+            const targetH = Math.round(h * scale);
+
+            if (forPreview) {
+                canvas.width = Math.max(1, Math.round(w / 2));
+                canvas.height = Math.max(1, Math.round(h / 2));
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                return null;
+            }
+
+            const out = document.createElement("canvas");
+            out.width = targetW;
+            out.height = targetH;
+            const outCtx = out.getContext("2d");
+            outCtx.drawImage(img, 0, 0, targetW, targetH);
+            return out;
+        } finally {
+            URL.revokeObjectURL(url);
+        }
+    }
+
+    async function exportPng(scale) {
+        try {
+            setStatus("Export läuft...");
+            const out = await renderToCanvas(scale, false);
+            const path = svgPathInput.value.trim();
+            const name = baseName(path) + (scale === 1 ? "" : `@${scale}x`) + ".png";
+
+            const link = document.createElement("a");
+            link.href = out.toDataURL("image/png");
+            link.download = name;
+            link.click();
+
+            setStatus(`Fertig: ${name}`);
+        } catch (err) {
+            setStatus(err.message || String(err), true);
+        }
+    }
+
+    $("previewBtn").addEventListener("click", async () => {
+        try {
+            setStatus("Lade Preview...");
+            await renderToCanvas(1, true);
+            setStatus("Preview geladen.");
+        } catch (err) {
+            setStatus(err.message || String(err), true);
+        }
+    });
+
+    $("export1x").addEventListener("click", () => exportPng(1));
+    $("export2x").addEventListener("click", () => exportPng(2));
+    $("export3x").addEventListener("click", () => exportPng(3));
+
+    setStatus("Bereit. Klicke auf 'Preview laden'.");
+</script>
+</body>
+</html>
